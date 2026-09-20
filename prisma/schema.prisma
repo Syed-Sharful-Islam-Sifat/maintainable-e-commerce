@@ -11,3 +11,101 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  carts     Cart[]
+  orders    Order[]
+  payments  Payment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductCategory {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  products    Product[]
+}
+
+model Product {
+  id            String          @id @default(cuid())
+  title         String
+  image         String
+  price         Decimal         @db.Decimal(10, 2)
+  description   String
+  stockQuantity Int
+  categoryId    String
+  category      ProductCategory @relation(fields: [categoryId], references: [id])
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  guestId   String?
+  userId    String?
+  user      User?      @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  CANCELLED
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  status     OrderStatus @default(PENDING_PAYMENT)
+  totalPrice Decimal     @db.Decimal(10, 2)
+  street     String
+  city       String
+  state      String
+  postalCode String
+  country    String
+  items      OrderItem[]
+  payment    Payment?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model OrderItem {
+  id              String  @id @default(cuid())
+  orderId         String
+  order           Order   @relation(fields: [orderId], references: [id])
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  quantity        Int
+  priceAtPurchase Decimal @db.Decimal(10, 2)
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  order           Order    @relation(fields: [orderId], references: [id])
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  paidAmount      Decimal  @db.Decimal(10, 2)
+  paymentIntentId String   @unique
+  paymentMethod   String
+  createdAt       DateTime @default(now())
+}

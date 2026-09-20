@@ -1,0 +1,7 @@
+[
+  { "id": "prod_headphones", "title": "Wireless Headphones", "image": "https://placehold.co/400", "price": "89.99", "description": "Over-ear, noise cancelling", "stockQuantity": 25, "categoryId": "cat_electronics" },
+  { "id": "prod_keyboard", "title": "Mechanical Keyboard", "image": "https://placehold.co/400", "price": "129.00", "description": "Hot-swappable switches", "stockQuantity": 10, "categoryId": "cat_electronics" },
+  { "id": "prod_novel", "title": "Detective Novel", "image": "https://placehold.co/400", "price": "14.50", "description": "A paperback mystery", "stockQuantity": 100, "categoryId": "cat_books" },
+  { "id": "prod_lamp", "title": "Desk Lamp", "image": "https://placehold.co/400", "price": "34.95", "description": "Adjustable LED lamp", "stockQuantity": 1, "categoryId": "cat_home" },
+  { "id": "prod_soldout", "title": "Limited Mug", "image": "https://placehold.co/400", "price": "19.99", "description": "Sold out edition", "stockQuantity": 0, "categoryId": "cat_home" }
+]

@@ -1,0 +1,5 @@
+[
+  { "id": "cat_electronics", "title": "Electronics", "description": "Gadgets and devices" },
+  { "id": "cat_books", "title": "Books", "description": "Paperbacks and hardcovers" },
+  { "id": "cat_home", "title": "Home", "description": "Everyday home items" }
+]

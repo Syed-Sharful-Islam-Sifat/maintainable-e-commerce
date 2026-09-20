@@ -38,4 +38,25 @@ There are three key factors to make the decision while designing the schema
 
 3. Consistency requirements - How Strict (ACID vs eventual consistency)
 
-Now Schema sketching is done. we will now install npm install @prisma/adapter-pg pg dotenv as new schema 7 workflow is different than what claude suggested me
+Now Schema sketching is done. I will now install npm install @prisma/adapter-pg pg dotenv as new schema 7 workflow is different than what claude suggested me
+
+I have written the schema but needs to run npx prisma generate to create prisma client and get all the methods also with types
+
+as we have generated primsa client and now we have to generate real tables through running prisma migrate dev:npx prisma migrate dev --name init
+
+Now to see the GUI to ensure about the creation of tables a snd see the tables live we need to run npx prisma studio 
+
+now we have to seed the product category and some product so to run the script we have to install the typescript in root as seeding the data should out of the src folder so run npm install --save-dev tsx 
+
+I have written the script for product category to seed into db one thing to notice here is I have used:  for (const category of categories){
+        await prisma.productCategory.upsert({
+           where:{id:category.id},
+           update:category,
+           create:category 
+        })
+    }
+
+upsert on a fixed id makes the seed idempotent run it ten times get the same result , no duplicates the deletemany and create is another option but it fails when you have referential integrity
+
+Now I have seeded the data successfully to the postgres db.
+
