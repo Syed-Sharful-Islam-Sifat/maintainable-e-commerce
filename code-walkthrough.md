@@ -60,3 +60,6 @@ upsert on a fixed id makes the seed idempotent run it ten times get the same res
 
 Now I have seeded the data successfully to the postgres db.
 
+Now we have to decide about the price as prisma client returns the decimal object so we should provide a global solution so we will return a round number on cents and stripe will also convert price into cents.
+
+We will define each of the core entities type on src/domain we have choosen domain over types because it represents a concept.
