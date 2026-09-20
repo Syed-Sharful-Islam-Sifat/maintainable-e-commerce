@@ -63,3 +63,11 @@ Now I have seeded the data successfully to the postgres db.
 Now we have to decide about the price as prisma client returns the decimal object so we should provide a global solution so we will return a round number on cents and stripe will also convert price into cents.
 
 We will define each of the core entities type on src/domain we have choosen domain over types because it represents a concept.
+
+Now we will write interfaces for repository. why? because it gives you what operations are allowed or avaialble to do without exposing the implementation details and also it works for different database as well if in future other database needs to query as defined interface user only needs to use interface and also it is hugely benifited in terms of writing unit test user does not need to use real db.
+
+I have created a db connection on prisma in src/lib/prisma.ts and here PrismaPg is the driver adapter. In Prisma 7 the client does not open a database connection itself the adapter built on pg driver does. purpose of globalThis is we will use single prismaCLient instance without this every time on change db will try to use new connection this way connection pool limit can exceed and says too many clients globalThis survives the reload, so the second run finds the first client and reuses it but in productuon theres no hot reload so guard is not needed
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
